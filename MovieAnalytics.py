@@ -12,9 +12,15 @@ data = pd.read_csv('tmdb-movies.csv')
 
 data["runtime"]=data["runtime"].div(60).round(2)
 
+#calculando la ganancia
+data["monto_ganancia"] = data["revenue"] - data["budget"]
+
+#print(data.head())
+
 X = data["budget"]
 Y = data["revenue"]
 
+# Graficando Ganancia vs Presupuesto
 fig = px.scatter(data, x=X, y=Y,color="release_year",
                  size='runtime', hover_data=['original_title'])
 
@@ -25,3 +31,18 @@ fig.update_xaxes(title_text="Inversion")
 fig.show()
 
 
+# Graficando serie de tiempo de ganancia vs fecha estreno
+
+#Calculando presupuesto
+
+X = data["release_date"]
+Y = data["monto_ganancia"]
+
+serie_tiempo = px.line(data, x=X, y=Y,color="release_year",
+                       hover_data=['original_title'])
+
+serie_tiempo.update_layout(title='Ganancia vs Fecha Estreno')
+serie_tiempo.update_yaxes(title_text="Ganancia (Ingresos - Presupuesto)")
+serie_tiempo.update_xaxes(title_text="Fecha Estreno")
+
+serie_tiempo.show()
