@@ -7,6 +7,31 @@ Created on Sun Feb  9 12:22:43 2020
 import plotly.express as px
 import pandas as pd
 
+
+def DisplayScatterPlot(Data,X,Y,hoverData,Titulo,t_ejex,t_ejey):
+    
+    fig = px.scatter(Data, x=X, y=Y,color="release_year",
+                     size='runtime', hover_data=hoverData)
+    
+    fig.update_layout(title=Titulo)
+    fig.update_yaxes(title_text=t_ejex)
+    fig.update_xaxes(title_text=t_ejey)
+                     
+    fig.show()
+    
+
+def DisplayLinePlot(Data,X,Y,hoverData,Titulo,t_ejex,t_ejey):
+    
+    serie_tiempo = px.line(Data, x=X, y=Y,color="release_year",
+                       hover_data=hoverData)
+    serie_tiempo.update_layout(title=Titulo)
+    serie_tiempo.update_yaxes(title_text=t_ejey)
+    serie_tiempo.update_xaxes(title_text=t_ejex)
+    
+    serie_tiempo.show()
+
+
+
 # Cargando data
 data = pd.read_csv('tmdb-movies.csv')
 
@@ -24,32 +49,25 @@ data["monto_ganancia"] = data["revenue"] - data["budget"]
 
 #print(data.head())
 
-X = data["budget"]
-Y = data["revenue"]
-
 # Graficando Ganancia vs Presupuesto
-fig = px.scatter(data, x=X, y=Y,color="release_year",
-                 size='runtime', hover_data=['original_title'])
+titulo = 'Ganancias vs Inversion'
+titulo_ex = "Inversión"
+titulo_ey = "Ganancia"
+HoverData = ['original_title']
 
-fig.update_layout(title='Ganancias vs Inversion')
-fig.update_yaxes(title_text="Ganancia")
-fig.update_xaxes(title_text="Inversion")
-                 
-fig.show()
-
+DisplayScatterPlot(data,data["budget"],data["revenue"],HoverData,
+                   titulo,titulo_ex,titulo_ey)
 
 # Graficando serie de tiempo de ganancia vs fecha estreno
 
-#Calculando presupuesto
+titulo = 'Ganancia vs Fecha Estreno'
+titulo_ex = "Fecha Estreno"
+titulo_ey = "Ganancia (Ingresos - Presupuesto)"
+HoverData = ['original_title','monto_ganancia']
 
-X = data["release_date"]
-Y = data["monto_ganancia"]
+DisplayLinePlot(data,data["release_date"],data["monto_ganancia"],
+                HoverData,titulo,titulo_ex,titulo_ey)
 
-serie_tiempo = px.line(data, x=X, y=Y,color="release_year",
-                       hover_data=['original_title','monto_ganancia'])
 
-serie_tiempo.update_layout(title='Ganancia vs Fecha Estreno')
-serie_tiempo.update_yaxes(title_text="Ganancia (Ingresos - Presupuesto)")
-serie_tiempo.update_xaxes(title_text="Fecha Estreno")
 
-serie_tiempo.show()
+
