@@ -83,5 +83,14 @@ DisplayLinePlot(data,data["release_date"],data["monto_ganancia"],
                 HoverData,titulo,titulo_ex,titulo_ey)
 
 
+# Graficando serie de tiempo de ganancia vs fecha estreno
 
+titulo = 'Duracion vs Ganancia'
+titulo_ex = "Tiempo de Duracion"
+titulo_ey = "Ganancia (Ingresos - Presupuesto)"
+HoverData = ['original_title','monto_ganancia']
+Size = 'runtime'
+
+DisplayScatterPlot(data,data["runtime"],data["monto_ganancia"],
+                HoverData,titulo,titulo_ex,titulo_ey, Size)
 
