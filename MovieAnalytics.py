@@ -38,6 +38,7 @@ data = pd.read_csv('tmdb-movies.csv')
 
 columns = ['imdb_id', 'popularity','cast','homepage','keywords','overview',
            'production_companies','tagline','budget_adj','revenue_adj','genres']
+
 data.drop(columns, inplace=True, axis=1)
 
 data.dropna()
